@@ -1,40 +1,30 @@
+// auth.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
-    private apiUrl = 'http://localhost:3000/api'; // Cambia esto según tu configuración
+  private apiUrl = 'http://localhost:3000/api'; // Asegúrate de que esta URL sea correcta
 
-    constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-    testConnection(): Observable<any> {
-        return this.http.get(`${this.apiUrl}/test`).pipe(
-            catchError(this.handleError) // Manejo de errores
-        );
-    }
+  // Método para probar la conexión
+  testConnection(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/test`);
+  }
 
-    login(username: string, password: string): Observable<any> {
-        return this.http.post(`${this.apiUrl}/login`, { username, password }).pipe(
-            catchError(this.handleError) // Manejo de errores
-        );
-    }
+  // Método para iniciar sesión
+  login(username: string, password: string): Observable<any> {
+    const loginData = {
+      username: username,
+      password: password
+    };
 
-    private handleError(error: HttpErrorResponse) {
-        let errorMessage = 'Ha ocurrido un error desconocido.';
+    console.log('Datos de inicio de sesión enviados:', loginData); // Para depuración
 
-        if (error.error instanceof ErrorEvent) {
-            // Errores del lado del cliente
-            errorMessage = `Error: ${error.error.message}`;
-        } else {
-            // Errores del lado del servidor
-            errorMessage = `Código de error: ${error.status}, Mensaje: ${error.message}`;
-        }
-
-        console.error(errorMessage); // Para depuración
-        return throwError(errorMessage); // Retorna el mensaje de error
-    }
+    return this.http.post(`${this.apiUrl}/login`, loginData);
+  }
 }

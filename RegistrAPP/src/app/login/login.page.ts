@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service'; // Ajusta la ruta aquí
-import { Router } from '@angular/router'; // Importa Router para redirigir después de iniciar sesión
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular'; // Importa AlertController para mostrar alertas
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,11 @@ export class LoginPage implements OnInit {
   username: string = ''; // Inicializa como cadena vacía
   password: string = ''; // Inicializa como cadena vacía
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private alertController: AlertController // Agrega AlertController aquí
+  ) {}
 
   ngOnInit() {
     // Verifica la conexión al servidor al iniciar
@@ -25,16 +30,21 @@ export class LoginPage implements OnInit {
     );
   }
 
-  onLogin() {
-    // Llama al método de inicio de sesión del servicio de autenticación
+  async onLogin() {
     this.authService.login(this.username, this.password).subscribe(
-      response => {
+      async response => {
         console.log('Inicio de sesión exitoso:', response);
         this.router.navigate(['/home']); // Cambia '/home' por la ruta que desees
       },
-      error => {
+      async error => {
         console.error('Error al iniciar sesión:', error);
-        // Maneja el error, muestra un mensaje al usuario si es necesario
+        // Muestra una alerta en caso de error
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: 'Credenciales incorrectas. Inténtalo de nuevo.',
+          buttons: ['OK'],
+        });
+        await alert.present();
       }
     );
   }

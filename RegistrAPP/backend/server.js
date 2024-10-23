@@ -34,6 +34,28 @@ app.post('/api/register', (req, res) => {
   res.status(201).json({ message: 'Usuario registrado exitosamente' });
 });
 
+// Endpoint de inicio de sesión
+app.post('/api/login', (req, res) => {
+  const { username, password } = req.body; // Cambié aquí a 'username'
+
+  // Asegúrate de que 'username' y 'password' no sean undefined
+  if (!username || !password) {
+    console.error('Credenciales faltantes');
+    return res.status(400).json({ message: 'Credenciales faltantes' });
+  }
+
+  // Buscar al usuario por nombre de usuario y contraseña
+  const user = users.find(u => u.username === username && u.password === password);
+
+  if (user) {
+    console.log(`Inicio de sesión exitoso para el usuario: ${user.username}`);
+    return res.status(200).json({ message: 'Inicio de sesión exitoso', user });
+  } else {
+    console.error(`Error de inicio de sesión: credenciales incorrectas para ${username}`);
+    return res.status(401).json({ message: 'Credenciales incorrectas' });
+  }
+});
+
 // Endpoint para obtener todos los usuarios
 app.get('/api/users', (req, res) => {
   res.status(200).json(users);
