@@ -1,5 +1,5 @@
 .home-content {
-  background: linear-gradient(to bottom right, #f0f8ff, #d4e1fc); // Fondo degradado suave
+  background: linear-gradient(to bottom right, #ffffff, #d4e1fc); // Fondo degradado suave con blanco
   padding: 20px; // Espaciado interno
   height: 100%; // Asegura que ocupe toda la altura
 
@@ -14,7 +14,7 @@
 
     h1 {
       font-size: 2.5rem; // Tamaño de fuente del encabezado
-      color: #3880ff; // Color del texto del encabezado
+      color: #003d66; // Azul Marino
       margin-bottom: 15px; // Espacio entre el encabezado y el párrafo
       font-weight: bold; // Negrita
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); // Sombra suave
@@ -32,7 +32,7 @@
       width: 70%; // Ancho del QR
       height: auto; // Mantener la proporción
       margin: 15%; // Margen alrededor del QR
-      border: 2px solid #3880ff; // Borde azul alrededor del QR
+      border: 2px solid #003d66; // Borde azul marino alrededor del QR
       border-radius: 10px; // Esquinas redondeadas
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); // Sombra suave
       transition: transform 0.3s; // Transición suave para el hover
@@ -42,13 +42,9 @@
       }
     }
 
-    .footer {
-      margin-top: 40px; // Espacio entre el QR y el pie de página
-      font-size: 0.9rem; // Tamaño de fuente del pie de página
-      color: #777; // Color del texto del pie de página
-    }
   }
 }
+
 .logo {
   width: 10%;
   height: 10%;

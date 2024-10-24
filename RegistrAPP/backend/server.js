@@ -71,3 +71,27 @@ const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
 });
+// Endpoint para cambiar la contraseña
+app.post('/api/change-password', (req, res) => {
+  const { username, oldPassword, newPassword } = req.body;
+
+  // Validar que los campos estén presentes
+  if (!username || !oldPassword || !newPassword) {
+    return res.status(400).json({ message: 'Todos los campos son requeridos' });
+  }
+
+  // Buscar al usuario por nombre de usuario
+  const user = users.find(u => u.username === username);
+
+  // Verificar si el usuario existe y la contraseña antigua es correcta
+  if (!user || user.password !== oldPassword) {
+    return res.status(401).json({ message: 'Credenciales incorrectas' });
+  }
+
+  // Actualizar la contraseña del usuario
+  user.password = newPassword;
+  console.log(`Contraseña actualizada para el usuario: ${user.username}`);
+
+  // Respuesta de éxito
+  res.status(200).json({ message: 'Contraseña actualizada exitosamente' });
+});

@@ -16,7 +16,9 @@ export class HomePage implements OnInit {
       this.user = currentNavigation.extras.state['user']; // Recibe el username si existe en el estado
     }
   }
-
+  goToCambiarPassword() {
+    this.router.navigate(['/cambiar-password']); // Ruta hacia la página de registro
+  }
   ngOnInit() {
     this.user = localStorage.getItem('user') || 'Invitado';
   }
