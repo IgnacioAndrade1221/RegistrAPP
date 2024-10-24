@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router'; // Importa el Router para redirección
-import { AlertController } from '@ionic/angular'; // Para mostrar alertas si hay errores
+import { Router } from '@angular/router'; 
+import { AlertController } from '@ionic/angular'; 
 
 @Component({
   selector: 'app-register',
@@ -15,8 +15,8 @@ export class RegisterPage {
 
   constructor(
     private http: HttpClient,
-    private router: Router, // Inyecta el Router
-    private alertController: AlertController // Inyecta el AlertController
+    private router: Router, 
+    private alertController: AlertController 
   ) {}
 
   async onRegister() {
@@ -26,13 +26,13 @@ export class RegisterPage {
       password: this.password,
     };
 
-    // Realiza la solicitud de registro
+    //  solicitud de registro
     this.http.post('http://localhost:3000/api/register', userData)
       .subscribe(
         async response => {
           console.log('Registro exitoso', response);
 
-          // Inicia sesión automáticamente después del registro
+          // Iniciar sesion
           this.http.post('http://localhost:3000/api/login', {
             username: this.username,
             password: this.password
@@ -41,7 +41,7 @@ export class RegisterPage {
               console.log('Inicio de sesión exitoso', loginResponse);
               const username = this.username;
               localStorage.setItem('user', username);
-              // Redirige a la página de inicio (home) con el username
+              
               this.router.navigate(['/home'], {
                 state: { user: this.username }
               });

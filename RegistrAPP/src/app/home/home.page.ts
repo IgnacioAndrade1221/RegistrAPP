@@ -8,16 +8,16 @@ import { Router } from '@angular/router';
 })
 export class HomePage implements OnInit {
 
-  user: string = ''; // Variable para almacenar el username
+  user: string = ''; 
 
   constructor(private router: Router) {
     const currentNavigation = this.router.getCurrentNavigation();
     if (currentNavigation?.extras.state) {
-      this.user = currentNavigation.extras.state['user']; // Recibe el username si existe en el estado
+      this.user = currentNavigation.extras.state['user']; 
     }
   }
   goToCambiarPassword() {
-    this.router.navigate(['/cambiar-password']); // Ruta hacia la página de registro
+    this.router.navigate(['/cambiar-password']); 
   }
   ngOnInit() {
     this.user = localStorage.getItem('user') || 'Invitado';

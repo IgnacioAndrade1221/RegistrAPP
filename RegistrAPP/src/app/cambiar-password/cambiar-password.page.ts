@@ -20,7 +20,7 @@ export class CambiarPasswordPage {
     const toast = await this.toastController.create({
       message: message,
       duration: 2000,
-      position: 'top', // Puedes ajustar la posición
+      position: 'top', 
     });
     await toast.present();
   }
@@ -42,7 +42,7 @@ export class CambiarPasswordPage {
         this.presentToast('Contraseña actualizada con éxito');
         const username = this.username;
         localStorage.setItem('user', username);
-        // Redirige a la página de inicio (home) con el username
+   
         this.router.navigate(['/home'], {
           state: { user: this.username }
         });

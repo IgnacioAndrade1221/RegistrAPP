@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular'; // Importa AlertController para mostrar alertas
+import { AlertController } from '@ionic/angular'; 
 
 @Component({
   selector: 'app-login',
@@ -9,20 +9,20 @@ import { AlertController } from '@ionic/angular'; // Importa AlertController par
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  username: string = ''; // Inicializa como cadena vacía
-  password: string = ''; // Inicializa como cadena vacía
+  username: string = ''; 
+  password: string = ''; 
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private alertController: AlertController // Agrega AlertController aquí
+    private alertController: AlertController 
   ) {}
 
   ngOnInit() {
-    // Verifica la conexión al servidor al iniciar
+    // conexion
     this.authService.testConnection().subscribe(
       response => {
-        console.log('Conexión exitosa:', response); // Deberías ver la respuesta en la consola
+        console.log('Conexión exitosa:', response); 
       },
       error => {
         console.error('Error al conectar con el servidor:', error);
@@ -37,17 +37,17 @@ export class LoginPage implements OnInit {
   
         const username = this.username;
         
-        // Guardar el username en localStorage
+        // guardar user
         localStorage.setItem('user', username);
 
-        // Navegar a 'home' con user
+
         this.router.navigate(['/home'], {
           state: { user: username }
         }); 
       },
       async error => {
         console.error('Error al iniciar sesión:', error);
-        // Muestra una alerta en caso de error
+
         const alert = await this.alertController.create({
           header: 'Error',
           message: 'Credenciales incorrectas. Inténtalo de nuevo.',
@@ -59,6 +59,6 @@ export class LoginPage implements OnInit {
   }
 
   goToRegister() {
-    this.router.navigate(['/register']); // Ruta hacia la página de registro
+    this.router.navigate(['/register']); 
   }
 }
