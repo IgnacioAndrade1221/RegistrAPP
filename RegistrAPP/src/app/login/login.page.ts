@@ -40,10 +40,10 @@ export class LoginPage implements OnInit {
         // Guardar el username en localStorage
         localStorage.setItem('user', username);
 
-        // Navegar a 'home' y pasar el username correctamente
+        // Navegar a 'home' con user
         this.router.navigate(['/home'], {
           state: { user: username }
-        }); // Aquí estaba el error: los paréntesis estaban mal colocados
+        }); 
       },
       async error => {
         console.error('Error al iniciar sesión:', error);
@@ -56,5 +56,9 @@ export class LoginPage implements OnInit {
         await alert.present();
       }
     );
+  }
+
+  goToRegister() {
+    this.router.navigate(['/register']); // Ruta hacia la página de registro
   }
 }
