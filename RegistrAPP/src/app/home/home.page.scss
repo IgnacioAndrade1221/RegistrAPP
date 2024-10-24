@@ -1,27 +1,55 @@
-#container {
-  text-align: center;
+.home-content {
+  background: linear-gradient(to bottom right, #f0f8ff, #d4e1fc); // Fondo degradado suave
+  padding: 20px; // Espaciado interno
+  height: 100%; // Asegura que ocupe toda la altura
 
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  .welcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%; // Ocupa toda la altura disponible
+    text-align: center; // Centra el texto
+    padding: 20px; // Espaciado interno
+
+    h1 {
+      font-size: 2.5rem; // Tamaño de fuente del encabezado
+      color: #3880ff; // Color del texto del encabezado
+      margin-bottom: 15px; // Espacio entre el encabezado y el párrafo
+      font-weight: bold; // Negrita
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); // Sombra suave
+    }
+
+    p {
+      font-size: 1.2rem; // Tamaño de fuente del párrafo
+      color: #555; // Color del texto del párrafo
+      margin-bottom: 30px; // Espacio entre el párrafo y el QR
+      line-height: 1.5; // Altura de línea para mejor legibilidad
+      max-width: 600px; // Ancho máximo del párrafo
+    }
+
+    .qr {
+      width: 70%; // Ancho del QR
+      height: auto; // Mantener la proporción
+      margin: 15%; // Margen alrededor del QR
+      border: 2px solid #3880ff; // Borde azul alrededor del QR
+      border-radius: 10px; // Esquinas redondeadas
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); // Sombra suave
+      transition: transform 0.3s; // Transición suave para el hover
+
+      &:hover {
+        transform: scale(1.05); // Efecto de aumento al pasar el ratón
+      }
+    }
+
+    .footer {
+      margin-top: 40px; // Espacio entre el QR y el pie de página
+      font-size: 0.9rem; // Tamaño de fuente del pie de página
+      color: #777; // Color del texto del pie de página
+    }
+  }
 }
-
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
+.logo {
+  width: 10%;
+  height: 10%;
 }

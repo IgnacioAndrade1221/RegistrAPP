@@ -1,20 +1,19 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title><img class="logo"src="assets/icon/icono.png" alt="">RegistrAPP</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="home-content">
+  <div class="welcome-container">
+    <h1>Bienvenido/a {{user}}</h1>
+    <p>Escanea el código QR para conectarte</p>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <ion-img
+      class="qr"
+      src="assets/icon/QR.png"
+      alt="QR Code"
+    ></ion-img>
+
   </div>
 </ion-content>

@@ -34,7 +34,16 @@ export class LoginPage implements OnInit {
     this.authService.login(this.username, this.password).subscribe(
       async response => {
         console.log('Inicio de sesión exitoso:', response);
-        this.router.navigate(['/home']); // Cambia '/home' por la ruta que desees
+  
+        const username = this.username;
+        
+        // Guardar el username en localStorage
+        localStorage.setItem('user', username);
+
+        // Navegar a 'home' y pasar el username correctamente
+        this.router.navigate(['/home'], {
+          state: { user: username }
+        }); // Aquí estaba el error: los paréntesis estaban mal colocados
       },
       async error => {
         console.error('Error al iniciar sesión:', error);
