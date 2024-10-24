@@ -27,16 +27,17 @@ export class CambiarPasswordPage {
 
   onChangePassword() {
 
-    const username = localStorage.getItem('username');
+    const usuario = localStorage.getItem('user');
 
     const passwordData = {
-      username: username,
+      username: usuario,
       oldPassword: this.oldPassword,
       newPassword: this.newPassword,
     };
-
+    console.log(passwordData)
     this.http.post('http://localhost:3000/api/change-password', passwordData)
       .subscribe(response => {
+        
         console.log('Contraseña cambiada exitosamente', response);
         this.presentToast('Contraseña actualizada con éxito');
         const username = this.username;
