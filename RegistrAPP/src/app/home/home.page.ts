@@ -9,7 +9,8 @@ import { Router } from '@angular/router';
 export class HomePage implements OnInit {
 
   user: string = ''; 
-
+  qrData = 'zttps://imgur.com/a/Sgu9L0o';  // Esto es lo que codificará el QR
+  qrSize = 256;  // Tamaño del código QR
   constructor(private router: Router) {
     const currentNavigation = this.router.getCurrentNavigation();
     if (currentNavigation?.extras.state) {

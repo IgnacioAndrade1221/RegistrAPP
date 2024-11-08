@@ -9,11 +9,8 @@
     <h1>Bienvenido/a {{user}}</h1>
     <p>Escanea el código QR para conectarte</p>
 
-    <ion-img
-      class="qr"
-      src="assets/icon/QR.png"
-      alt="QR Code"
-    ></ion-img>
+    <qrcode [qrdata]="qrData"></qrcode>
+
     <ion-button expand="full"  (click)="goToCambiarPassword()">
       Cambiar Contraseña
     </ion-button>
