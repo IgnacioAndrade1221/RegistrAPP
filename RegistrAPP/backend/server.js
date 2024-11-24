@@ -1,38 +1,50 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const axios = require('axios'); // Cliente HTTP
 
 const app = express();
-
 
 app.use(cors()); 
 app.use(bodyParser.json()); 
 
-// usuarios
+// Usuarios en memoria (actualmente)
 let users = []; 
 
-// endpoint
-app.post('/api/register', (req, res) => {
+// Endpoint de registro
+app.post('/api/register', async (req, res) => {
   const { username, email, password } = req.body;
 
+  // Validaciones locales
   if (!username || !email || !password) {
     return res.status(400).json({ message: 'Todos los campos son requeridos' });
   }
 
-  // verificar email
+  // Verificar si el email ya está registrado (en memoria, por ahora)
   const existingUser = users.find(user => user.email === email);
   if (existingUser) {
     return res.status(409).json({ message: 'El email ya está en uso' });
   }
 
- 
+  // Guardar usuario en memoria (Node.js)
   users.push({ username, email, password });
-  console.log(`Registrando usuario: ${username}, Email: ${email}`); 
+  console.log(`Registrando usuario en memoria: ${username}, Email: ${email}`);
 
-  res.status(201).json({ message: 'Usuario registrado exitosamente' });
+  // Ahora, hacer una petición HTTP a Django para registrar al usuario en su base de datos
+  try {
+    const response = await axios.post('http://127.0.0.1:8000/django-api/register/', {
+      username,
+      email,
+      password,
+    });
+    res.status(response.status).json(response.data);
+  } catch (error) {
+    console.error('Error al registrar en Django:', error);
+    res.status(error.response?.status || 500).json(error.response?.data || { message: 'Error al registrar en Django' });
+  }
 });
 
-// endpoint  inicio sesión
+// Endpoint de inicio de sesión
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body; 
 
@@ -57,15 +69,12 @@ app.get('/api/users', (req, res) => {
   res.status(200).json(users);
 });
 
+// Test
 app.get('/api/test', (req, res) => {
   res.json({ message: 'API está funcionando correctamente' });
 });
 
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
-});
-//  cambiar contraseña
+// Cambiar contraseña
 app.post('/api/change-password', (req, res) => {
   const { username, oldPassword, newPassword } = req.body;
 
@@ -83,4 +92,10 @@ app.post('/api/change-password', (req, res) => {
   console.log(`Contraseña actualizada para el usuario: ${user.username}`);
 
   res.status(200).json({ message: 'Contraseña actualizada exitosamente' });
+});
+
+// Servidor
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
 });
