@@ -10,6 +10,7 @@
     <p>Escanea el código QR para conectarte</p>
 
     <qrcode [qrdata]="qrData"></qrcode>
+    <ion-button expand="full" (click)="openCamera()">Abrir Cámara</ion-button>
 
     <ion-button expand="full"  (click)="goToCambiarPassword()">
       Cambiar Contraseña
