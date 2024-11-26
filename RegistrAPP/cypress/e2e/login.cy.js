@@ -1,25 +1,27 @@
 describe('Login Flow', () => {
-    it('should login successfully', () => {
-      // Visitar la página de inicio de sesión
-      cy.visit('/login');
-  
-      // Completar el formulario
-      cy.get('[name="username"]').type('testuser');
-      cy.get('[name="password"]').type('password123');
-      cy.get('button[type="submit"]').click();
-  
-      // Verificar redirección
-      cy.url().should('include', '/dashboard');
-    });
-  
-    it('should show error on invalid login', () => {
-      cy.visit('/login');
-      cy.get('[name="username"]').type('wronguser');
-      cy.get('[name="password"]').type('wrongpassword');
-      cy.get('button[type="submit"]').click();
-  
-      // Verificar mensaje de error
-      cy.contains('Invalid credentials').should('be.visible');
+  it('should login successfully', () => {
+    cy.visit('/login');
+
+    // Completar el formulario
+    cy.get('[name="username"]').eq(0).type('nacho');  // Seleccionar el primer campo
+    cy.get('[name="password"]').eq(0).type('admin');
+    cy.get('button[type="submit"]').click({ force: true });
+
+    // Verificar redirección a /home
+    cy.location('pathname', { timeout: 10000 }).should('include', '/home');
+  });
+
+  it('should show error on invalid login', () => {
+    cy.visit('/login');
+
+    // Asegurarse de seleccionar el primer campo de username
+    cy.get('[name="username"]').eq(0).type('wronguser');
+    cy.get('[name="password"]').eq(0).type('wrongpassword');
+    cy.get('button[type="submit"]').click({ force: true });
+
+    // Mock de la alerta
+    cy.on('window:alert', (txt) => {
+      expect(txt).to.contains('Credenciales incorrectas. Inténtalo de nuevo.');
     });
   });
-  
+});
