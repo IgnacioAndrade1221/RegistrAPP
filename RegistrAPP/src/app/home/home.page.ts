@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-
+import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -14,6 +14,7 @@ export class HomePage implements OnInit {
   qrSize = 256;  // Tamaño del código QR
 
   capturedImage: string | undefined;
+  scannedResult: string = '';
 
   constructor(private router: Router) {
     const currentNavigation = this.router.getCurrentNavigation();
@@ -37,5 +38,26 @@ export class HomePage implements OnInit {
     });
 
     this.capturedImage = image.dataUrl; // Guarda la imagen capturada
+  }
+
+  async startScanner() {
+    // Pedir permiso para usar la cámara
+    const result = await BarcodeScanner.checkPermission({ force: true });
+    
+    if (result.granted) {
+      // Iniciar el escaneo
+      BarcodeScanner.startScan().then((scanResult) => {
+        if (scanResult.hasContent) {
+          this.scannedResult = scanResult.content; // Mostrar el resultado
+        } else {
+          console.log('Escaneo cancelado o fallido');
+        }
+      });
+    } else {
+      console.log('Permiso denegado para usar la cámara');
+    }
+  }
+  stopScanner() {
+    BarcodeScanner.stopScan();
   }
 }
