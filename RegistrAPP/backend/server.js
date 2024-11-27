@@ -100,3 +100,7 @@ app.listen(PORT, () => {
   console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
 });
 
+
+//app.use(cors({
+//  origin: 'http://tudominio.com'  // URL de tu frontend
+//}));
