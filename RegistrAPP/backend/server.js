@@ -101,6 +101,6 @@ app.listen(PORT, () => {
 });
 
 
-//app.use(cors({
-//  origin: 'http://tudominio.com'  // URL de tu frontend
-//}));
+app.use(cors({
+  origin: 'http://localhost:8100'  // Permite solicitudes solo desde este origen
+}));

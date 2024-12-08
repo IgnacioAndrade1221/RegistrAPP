@@ -28,7 +28,11 @@ const routes: Routes = [
   {
     path: 'cambiar-password',
     loadChildren: () => import('./cambiar-password/cambiar-password.module').then( m => m.CambiarPasswordPageModule)
+  },  {
+    path: 'home-admin',
+    loadChildren: () => import('./home-admin/home-admin.module').then( m => m.HomeAdminPageModule)
   },
+
 
 ];
 

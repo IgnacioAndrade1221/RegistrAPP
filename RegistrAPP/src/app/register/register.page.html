@@ -20,5 +20,13 @@
     <ion-input [(ngModel)]="password" type="password"></ion-input>
   </ion-item>
 
+  <ion-item>
+    <ion-label>Rol</ion-label>
+    <ion-select [(ngModel)]="role" placeholder="Seleccionar rol">
+      <ion-select-option value="ESTUDIANTE">Estudiante</ion-select-option>
+      <ion-select-option value="PROFESOR">Profesor</ion-select-option>
+    </ion-select>
+  </ion-item>
+
   <ion-button expand="block" (click)="onRegister()">Registrar</ion-button>
 </ion-content>

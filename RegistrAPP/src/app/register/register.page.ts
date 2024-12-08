@@ -3,6 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router'; 
 import { AlertController } from '@ionic/angular'; 
 
+interface LoginResponse {
+  rol: string;
+  // Puedes agregar otras propiedades que tenga la respuesta de login si es necesario
+}
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -12,6 +17,7 @@ export class RegisterPage {
   username: string = '';
   email: string = '';
   password: string = '';
+  role: string = 'ESTUDIANTE';
 
   constructor(
     private http: HttpClient,
@@ -24,27 +30,38 @@ export class RegisterPage {
       username: this.username,
       email: this.email,
       password: this.password,
+      rol: this.role, // Se manda el rol como parte del cuerpo
     };
 
-    //  solicitud de registro
-    this.http.post('http://localhost:3000/api/register', userData)
-      .subscribe(
+    // Solicitud de registro
+    this.http.post('http://127.0.0.1:8000/django-api/register/', userData)
+    .subscribe(
         async response => {
           console.log('Registro exitoso', response);
 
-          // Iniciar sesion
-          this.http.post('http://localhost:3000/api/login', {
+          // Iniciar sesión automáticamente después de registrar
+          this.http.post<LoginResponse>('http://127.0.0.1:8000/api/login/', {
             username: this.username,
             password: this.password
           }).subscribe(
-            async loginResponse => {
+            async (loginResponse: LoginResponse) => {  // Ahora usamos la interfaz LoginResponse
               console.log('Inicio de sesión exitoso', loginResponse);
               const username = this.username;
               localStorage.setItem('user', username);
-              
-              this.router.navigate(['/home'], {
-                state: { user: this.username }
-              });
+
+              // Obtener el rol desde la respuesta
+              const role = loginResponse.rol;  // Ahora TypeScript sabe que "rol" existe
+
+              // Redirigir según el rol del usuario
+              if (role === 'PROFESOR') {
+                this.router.navigate(['/home-admin'], {
+                  state: { user: this.username, role: role }
+                });
+              } else {
+                this.router.navigate(['/home'], {
+                  state: { user: this.username, role: role }
+                });
+              }
             },
             async error => {
               console.error('Error al iniciar sesión automáticamente', error);

@@ -19,7 +19,7 @@ export class LoginPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    // conexion
+    // Prueba de conexión (opcional)
     this.authService.testConnection().subscribe(
       response => {
         console.log('Conexión exitosa:', response); 
@@ -34,16 +34,21 @@ export class LoginPage implements OnInit {
     this.authService.login(this.username, this.password).subscribe(
       async response => {
         console.log('Inicio de sesión exitoso:', response);
-  
+
+        // Asegúrate de que el backend devuelva el rol del usuario
+        const role = response.role; // 'profesor' o 'usuario'
         const username = this.username;
-        
-        // guardar user
+
+        // Guardar el usuario y el rol en localStorage
         localStorage.setItem('user', username);
+        localStorage.setItem('role', role);
 
-
-        this.router.navigate(['/home'], {
-          state: { user: username }
-        }); 
+        // Redirigir según el rol del usuario
+        if (role === 'Profesor') {
+          this.router.navigate(['/home-admin']); // Redirige a home-admin si el rol es profesor
+        } else {
+          this.router.navigate(['/home']); // Redirige a home si el rol es otro
+        }
       },
       async error => {
         console.error('Error al iniciar sesión:', error);
@@ -59,6 +64,6 @@ export class LoginPage implements OnInit {
   }
 
   goToRegister() {
-    this.router.navigate(['/register']); 
+    this.router.navigate(['/register']); // Navega a la página de registro
   }
 }
