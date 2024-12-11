@@ -65,6 +65,15 @@ app.post('/api/login', async (req, res) => {
     console.error('Error al autenticar en Django:', error.message);
     res.status(error.response?.status || 500).json(error.response?.data || { message: 'Error al autenticar en Django' });
   }
+  if (validCredentials) {
+    // Responder con el role
+    res.json({
+      username: username,
+      role: 'PROFESOR' // O 'USUARIO', según corresponda
+    });
+  } else {
+    res.status(401).json({ error: 'Credenciales incorrectas' });
+  }
 });
 
 

@@ -54,8 +54,15 @@ def login_usuario(request):
             if not check_password(password, user.password):
                 return JsonResponse({'message': 'Credenciales incorrectas'}, status=401)
 
-            # Si la contraseña es correcta
-            return JsonResponse({'message': 'Inicio de sesión exitoso', 'user': {'username': user.username, 'email': user.email}}, status=200)
+            # Si la contraseña es correcta, devolvemos el usuario con el rol
+            return JsonResponse({
+                'message': 'Inicio de sesión exitoso',
+                'user': {
+                    'username': user.username,
+                    'email': user.email,
+                    'rol': user.rol  # Aquí añadimos el rol
+                }
+            }, status=200)
 
         except Usuario.DoesNotExist:
             return JsonResponse({'message': 'Credenciales incorrectas'}, status=401)

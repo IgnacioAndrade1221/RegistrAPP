@@ -19,35 +19,42 @@ export class LoginPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Prueba de conexión (opcional)
-    this.authService.testConnection().subscribe(
-      response => {
-        console.log('Conexión exitosa:', response); 
-      },
-      error => {
-        console.error('Error al conectar con el servidor:', error);
-      }
-    );
+    // Eliminamos la prueba de conexión aquí ya que no es necesaria para el login
+    // En vez de esto, hacemos el login cuando el usuario ingresa sus credenciales
   }
 
   async onLogin() {
+    // Verifica si los campos no están vacíos
+    if (!this.username || !this.password) {
+      const alert = await this.alertController.create({
+        header: 'Error',
+        message: 'Por favor ingresa tu usuario y contraseña.',
+        buttons: ['OK'],
+      });
+      await alert.present();
+      return;
+    }
+  
+    // Llamada al servicio de login
     this.authService.login(this.username, this.password).subscribe(
       async response => {
-        console.log('Inicio de sesión exitoso:', response);
-        
-        // Asegúrate de que el backend devuelva el role del usuario
-        const role = response.role; // 'profesor' o 'usuario'
+        console.log('Respuesta del backend:', response);  // Verifica toda la respuesta del backend
+  
+        // Asegúrate de acceder al campo correcto: response.user.rol
+        console.log('Role del usuario:', response.user.rol);  // Accede a 'rol' dentro de 'user'
+  
+        const role = response.user.rol;  // Accede a 'rol' de 'user'
         const username = this.username;
   
-        // Guarda el usuario y el rol en localStorage
+        // Guardamos el usuario y el rol en localStorage
         localStorage.setItem('user', username);
         localStorage.setItem('role', role);
   
         // Redirigir según el rol del usuario
-        if (role === 'Profesor') {
-          this.router.navigate(['/home-admin']); // Redirige a home-admin si el rol es profesor
+        if (role === 'PROFESOR') {
+          this.router.navigate(['/home-admin']); // Redirige a home-admin si el rol es PROFESOR
         } else {
-          this.router.navigate(['/home']); // Redirige a home si el rol es otro
+          this.router.navigate(['/home']); // Redirige a home si el rol es USUARIO
         }
       },
       async error => {
@@ -63,7 +70,6 @@ export class LoginPage implements OnInit {
     );
   }
   
-
   goToRegister() {
     this.router.navigate(['/register']); // Navega a la página de registro
   }
