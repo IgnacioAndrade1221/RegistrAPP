@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/api'; 
+  private apiUrl = 'http://localhost:8000/api'; // Asegúrate de que esta URL tenga la barra inclinada al final
 
   constructor(private http: HttpClient) {}
 
@@ -23,8 +23,8 @@ export class AuthService {
       password: password
     };
 
-    console.log('Datos de inicio de sesión enviados:', loginData); 
+    console.log('Datos de inicio de sesión enviados:', loginData);
 
-    return this.http.post(`${this.apiUrl}/login`, loginData);
+    return this.http.post(`${this.apiUrl}/login/`, loginData); // Aquí agregamos la barra inclinada
   }
 }

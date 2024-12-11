@@ -34,15 +34,15 @@ export class LoginPage implements OnInit {
     this.authService.login(this.username, this.password).subscribe(
       async response => {
         console.log('Inicio de sesión exitoso:', response);
-
-        // Asegúrate de que el backend devuelva el rol del usuario
+        
+        // Asegúrate de que el backend devuelva el role del usuario
         const role = response.role; // 'profesor' o 'usuario'
         const username = this.username;
-
-        // Guardar el usuario y el rol en localStorage
+  
+        // Guarda el usuario y el rol en localStorage
         localStorage.setItem('user', username);
         localStorage.setItem('role', role);
-
+  
         // Redirigir según el rol del usuario
         if (role === 'Profesor') {
           this.router.navigate(['/home-admin']); // Redirige a home-admin si el rol es profesor
@@ -52,7 +52,7 @@ export class LoginPage implements OnInit {
       },
       async error => {
         console.error('Error al iniciar sesión:', error);
-
+  
         const alert = await this.alertController.create({
           header: 'Error',
           message: 'Credenciales incorrectas. Inténtalo de nuevo.',
@@ -62,6 +62,7 @@ export class LoginPage implements OnInit {
       }
     );
   }
+  
 
   goToRegister() {
     this.router.navigate(['/register']); // Navega a la página de registro

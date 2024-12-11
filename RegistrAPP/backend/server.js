@@ -45,24 +45,28 @@ app.post('/api/register', async (req, res) => {
 });
 
 // Endpoint de inicio de sesión
-app.post('/api/login', (req, res) => {
-  const { username, password } = req.body; 
+app.post('/api/login', async (req, res) => {
+  const { username, password } = req.body;
 
   if (!username || !password) {
-    console.error('Credenciales faltantes');
     return res.status(400).json({ message: 'Credenciales faltantes' });
   }
 
-  const user = users.find(u => u.username === username && u.password === password);
+  try {
+    // Llamada al backend de Django para validar el login
+    const response = await axios.post('http://127.0.0.1:8000/django-api/login/', {
+      username,
+      password,
+    });
 
-  if (user) {
-    console.log(`Inicio de sesión exitoso para el usuario: ${user.username}`);
-    return res.status(200).json({ message: 'Inicio de sesión exitoso', user });
-  } else {
-    console.error(`Error de inicio de sesión: credenciales incorrectas para ${username}`);
-    return res.status(401).json({ message: 'Credenciales incorrectas' });
+    // Si el backend de Django responde con éxito
+    res.status(response.status).json(response.data);
+  } catch (error) {
+    console.error('Error al autenticar en Django:', error.message);
+    res.status(error.response?.status || 500).json(error.response?.data || { message: 'Error al autenticar en Django' });
   }
 });
+
 
 // Endpoint obtener usuarios
 app.get('/api/users', (req, res) => {
@@ -100,7 +104,3 @@ app.listen(PORT, () => {
   console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
 });
 
-
-app.use(cors({
-  origin: 'http://localhost:8100'  // Permite solicitudes solo desde este origen
-}));
