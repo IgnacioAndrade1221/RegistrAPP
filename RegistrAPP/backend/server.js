@@ -65,17 +65,7 @@ app.post('/api/login', async (req, res) => {
     console.error('Error al autenticar en Django:', error.message);
     res.status(error.response?.status || 500).json(error.response?.data || { message: 'Error al autenticar en Django' });
   }
-  if (validCredentials) {
-    // Responder con el role
-    res.json({
-      username: username,
-      role: 'PROFESOR' // O 'USUARIO', según corresponda
-    });
-  } else {
-    res.status(401).json({ error: 'Credenciales incorrectas' });
-  }
 });
-
 
 // Endpoint obtener usuarios
 app.get('/api/users', (req, res) => {
@@ -109,7 +99,7 @@ app.post('/api/change-password', (req, res) => {
 
 // Servidor
 const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
+const HOST = '0.0.0.0'; // Red local
+app.listen(PORT, HOST, () => {
+  console.log(`Servidor ejecutándose en http://${HOST}:${PORT}`);
 });
-

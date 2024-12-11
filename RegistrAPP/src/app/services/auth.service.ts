@@ -1,4 +1,3 @@
-// auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -7,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8000/api'; // Asegúrate de que esta URL tenga la barra inclinada al final
+  private apiUrl = 'http://localhost:8000/api'; // Aquí va la IP local de tu computadora
 
   constructor(private http: HttpClient) {}
 
@@ -25,6 +24,6 @@ export class AuthService {
 
     console.log('Datos de inicio de sesión enviados:', loginData);
 
-    return this.http.post(`${this.apiUrl}/login/`, loginData); // Aquí agregamos la barra inclinada
+    return this.http.post(`${this.apiUrl}/login/`, loginData);
   }
 }
