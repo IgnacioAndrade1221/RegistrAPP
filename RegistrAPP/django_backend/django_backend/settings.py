@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-2vl=yf1xvh6!)0g1db92z_h@nhs+cd!klm%^z-@7z2dq(y2)=z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.100.10']
 
 
 # Application definition
@@ -126,6 +126,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8100',  # Ejemplo para Ionic
-    'http://127.0.0.1:8000',
+    'http://192.168.100.10:3000'
 ]
 

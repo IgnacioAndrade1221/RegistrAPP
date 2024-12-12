@@ -34,55 +34,48 @@ export class RegisterPage {
     };
 
     // Solicitud de registro
-    this.http.post('http://127.0.0.1:8000/django-api/register/', userData)
+    this.http.post('http://192.168.100.10:3000/api/register/', userData)
     .subscribe(
-        async response => {
-          console.log('Registro exitoso', response);
-
-          // Iniciar sesión automáticamente después de registrar
-          this.http.post<LoginResponse>('http://127.0.0.1:8000/api/login/', {
-            username: this.username,
-            password: this.password
-          }).subscribe(
-            async (loginResponse: LoginResponse) => {  // Ahora usamos la interfaz LoginResponse
-              console.log('Inicio de sesión exitoso', loginResponse);
-              const username = this.username;
-              localStorage.setItem('user', username);
-
-              // Obtener el rol desde la respuesta
-              const role = loginResponse.rol;  // Ahora TypeScript sabe que "rol" existe
-
-              // Redirigir según el rol del usuario
-              if (role === 'PROFESOR') {
-                this.router.navigate(['/home-admin'], {
-                  state: { user: this.username, role: role }
-                });
-              } else {
-                this.router.navigate(['/home'], {
-                  state: { user: this.username, role: role }
-                });
-              }
-            },
-            async error => {
-              console.error('Error al iniciar sesión automáticamente', error);
-              const alert = await this.alertController.create({
-                header: 'Error',
-                message: 'No se pudo iniciar sesión automáticamente. Intenta nuevamente.',
-                buttons: ['OK'],
-              });
-              await alert.present();
+      async response => {
+        console.log('Registro exitoso', response);
+  
+        // Llamada a login
+        this.http.post<LoginResponse>('http://192.168.100.10:3000/api/login/', {
+          username: this.username,
+          password: this.password
+        }).subscribe(
+          async (loginResponse: LoginResponse) => {
+            console.log('Inicio de sesión exitoso', loginResponse);
+            localStorage.setItem('user', this.username);
+  
+            // Navegación dependiendo del rol
+            const role = loginResponse.rol;
+            if (role === 'PROFESOR') {
+              this.router.navigate(['/home-admin'], { state: { user: this.username, role } });
+            } else {
+              this.router.navigate(['/home'], { state: { user: this.username, role } });
             }
-          );
-        },
-        async error => {
-          console.error('Error en el registro', error);
-          const alert = await this.alertController.create({
-            header: 'Error',
-            message: 'No se pudo completar el registro. Intenta nuevamente.',
-            buttons: ['OK'],
-          });
-          await alert.present();
-        }
-      );
+          },
+          async error => {
+            console.error('Error al iniciar sesión automáticamente', error);
+            const alert = await this.alertController.create({
+              header: 'Error',
+              message: 'No se pudo iniciar sesión automáticamente. Intenta nuevamente.',
+              buttons: ['OK'],
+            });
+            await alert.present();
+          }
+        );
+      },
+      async error => {
+        console.error('Error en el registro', error);
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: `No se pudo completar el registro. Error: ${error.message}`,
+          buttons: ['OK'],
+        });
+        await alert.present();
+      }
+    );
   }
 }

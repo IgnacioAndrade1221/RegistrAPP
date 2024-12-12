@@ -13,7 +13,7 @@ let users = [];
 
 // Endpoint de registro
 app.post('/api/register', async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, rol } = req.body;
 
   // Validaciones locales
   if (!username || !email || !password) {
@@ -27,15 +27,16 @@ app.post('/api/register', async (req, res) => {
   }
 
   // Guardar usuario en memoria (Node.js)
-  users.push({ username, email, password });
-  console.log(`Registrando usuario en memoria: ${username}, Email: ${email}`);
+  users.push({ username, email, password, rol });
+  console.log(`Registrando usuario en memoria: ${username}, Email: ${email}, Rol: ${rol}`);
 
   // Ahora, hacer una petición HTTP a Django para registrar al usuario en su base de datos
   try {
-    const response = await axios.post('http://127.0.0.1:8000/django-api/register/', {
+    const response = await axios.post('http://192.168.100.10:8000/django-api/register/', {
       username,
       email,
       password,
+      rol
     });
     res.status(response.status).json(response.data);
   } catch (error) {
@@ -54,7 +55,7 @@ app.post('/api/login', async (req, res) => {
 
   try {
     // Llamada al backend de Django para validar el login
-    const response = await axios.post('http://127.0.0.1:8000/django-api/login/', {
+    const response = await axios.post('http://192.168.100.10:8000/django-api/login/', {
       username,
       password,
     });
@@ -99,7 +100,16 @@ app.post('/api/change-password', (req, res) => {
 
 // Servidor
 const PORT = 3000;
-const HOST = '0.0.0.0'; // Red local
+const HOST = '0.0.0.0'; // Escucha en todas las interfaces de red
+
 app.listen(PORT, HOST, () => {
-  console.log(`Servidor ejecutándose en http://${HOST}:${PORT}`);
+  const os = require('os'); // Importa el módulo os para obtener la IP local
+  const networkInterfaces = os.networkInterfaces();
+  
+  // Encuentra la IP local de la red Wi-Fi (o LAN)
+  const localIP = Object.values(networkInterfaces)
+    .flat()
+    .find((iface) => iface.family === 'IPv4' && !iface.internal)?.address;
+
+  console.log(`Servidor ejecutándose en http://${localIP || HOST}:${PORT}`);
 });
