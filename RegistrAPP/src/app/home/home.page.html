@@ -7,11 +7,10 @@
 <ion-content [fullscreen]="true" class="home-content">
   <div class="welcome-container">
     <h1>Bienvenido/a {{user}}</h1>
-    <p>Escanea el código QR para conectarte</p>
+    <p>comparte este qr con la clase para confirmar asistencia/p>
 
     <qrcode [qrdata]="qrData"></qrcode>
-    <ion-button expand="full" (click)="openCamera()">Abrir Cámara</ion-button>
-    <ion-button expand="full" (click)="startScanner()">Iniciar Escaneo</ion-button>
+
     <ion-button expand="full"  (click)="goToCambiarPassword()">
       Cambiar Contraseña
     </ion-button>

@@ -51,9 +51,9 @@ export class RegisterPage {
             // Navegación dependiendo del rol
             const role = loginResponse.rol;
             if (role === 'PROFESOR') {
-              this.router.navigate(['/home-admin'], { state: { user: this.username, role } });
-            } else {
               this.router.navigate(['/home'], { state: { user: this.username, role } });
+            } else {
+              this.router.navigate(['/home-admin'], { state: { user: this.username, role } });
             }
           },
           async error => {

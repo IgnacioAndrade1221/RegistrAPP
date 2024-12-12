@@ -52,9 +52,9 @@ export class LoginPage implements OnInit {
   
         // Redirigir según el rol del usuario
         if (role === 'PROFESOR') {
-          this.router.navigate(['/home-admin']); // Redirige a home-admin si el rol es PROFESOR
+          this.router.navigate(['/home']); // Redirige a home-admin si el rol es PROFESOR
         } else {
-          this.router.navigate(['/home']); // Redirige a home si el rol es USUARIO
+          this.router.navigate(['/home-admin']); // Redirige a home si el rol es USUARIO
         }
       },
       async error => {

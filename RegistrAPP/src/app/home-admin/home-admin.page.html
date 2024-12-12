@@ -1,13 +1,15 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>home-admin</ion-title>
+    <ion-title><img class="logo"src="assets/icon/icono.png" alt="">RegistrAPP</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">home-admin</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="home-content">
+  <div class="welcome-container">
+    <h1>Bienvenido/a {{user}}</h1>
+    <p>Escanea el código QR para confirmar asistencia</p>
+
+    <ion-button expand="full" (click)="openCamera()">Abrir Cámara</ion-button>
+    <ion-button expand="full" (click)="startScanner()">Iniciar Escaneo</ion-button>
+  </div>
 </ion-content>
